@@ -10,21 +10,48 @@ Rectangle {
     height: _treeView.delegateHeight
 
     //------------------------------------------------------------------------------
-    Item {
-        id: _treeViewDelegateContents
+    DropArea {
+        id: swapDropArea
+
+        width: 0.75*_treeView.width
+        height: _delegate.height
+        enabled: height > 0
+        visible: enabled
+
+        onEntered: {
+            TreeItemModel.swapRow(drag.source.visualIndex, index)
+        }
+    } // DropArea { id: swapDropArea
+
+    //------------------------------------------------------------------------------
+    Loader {
+        id: delegateContentsLoader
+
+        readonly property var modelData: model.modelData
 
         anchors.fill: parent
         anchors.leftMargin: _delegate.xOffset
+        opacity: 0.5
+        visible: draggableTreeItem !== null
+        sourceComponent: _treeView.delegateContentsComponent
+    } // Loader { id: delegateContentsLoader
 
-        Text {
-            id: textItem
+    //------------------------------------------------------------------------------
+    TreeViewDraggableDelegate {
+        id: draggableDelegate
 
-            text: treeItem.name
-            width: parent.width
-            height: parent.height
-            elide: Text.ElideRight
-            verticalAlignment: Text.AlignVCenter
+        Rectangle {
             anchors.fill: parent
+            color: "blue"
+            opacity: 0.2
+            visible: hoverHandler.hovered
         }
-    }
+
+        HoverHandler {
+            id: hoverHandler
+
+            target: draggableDelegate
+            enabled: !_treeView.flicking
+        }
+    } // TreeViewDraggableDelegate { id: draggableDelegate
 }

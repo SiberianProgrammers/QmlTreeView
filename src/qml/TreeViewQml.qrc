@@ -1,7 +1,9 @@
 <RCC>
-    <qresource prefix="/SP">
+    <qresource prefix="/sp">
         <file>DebugRectangle.qml</file>
         <file>TreeView.qml</file>
         <file>TreeViewDelegate.qml</file>
+        <file>TreeViewDraggableDelegate.qml</file>
+        <file>TreeViewDelegateContents.qml</file>
     </qresource>
 </RCC>

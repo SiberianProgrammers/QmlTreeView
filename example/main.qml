@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 
-import "qrc:/SP"
+import "qrc:/sp"
 
 Window {
     visible: true

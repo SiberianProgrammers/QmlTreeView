@@ -68,6 +68,83 @@ void TreeItemModel::setRootItem(RootItem* rootItem)
 }
 
 //------------------------------------------------------------------------------
+void TreeItemModel::swapRow(int draggableIndex, int dropableIndex)
+{
+    if (draggableIndex == dropableIndex) {
+        return;
+    }
+
+    auto dragItem = _items[draggableIndex];
+    auto dropItem = _items[dropableIndex];
+
+    if (dragItem->contains(dropItem, Qt::FindChildrenRecursively)
+        || dropItem->isRootItem())
+    {
+        return;
+    }
+
+    bool moveToDown = dropableIndex > draggableIndex;
+    bool moveToUp = !moveToDown;
+
+    int dragItemChildrenSize = dragItem->childrenSize(Qt::FindChildrenRecursively);
+    int destination = moveToDown
+                      ? dropableIndex + 1
+                      : dropableIndex;
+
+    beginMoveRows(QModelIndex()
+                 , draggableIndex
+                 , draggableIndex + dragItemChildrenSize
+                 , QModelIndex()
+                 , destination);
+
+    if (dragItemChildrenSize) {
+        auto mid = _items.mid(draggableIndex, dragItemChildrenSize + 1);
+        _items.remove(draggableIndex, dragItemChildrenSize + 1);
+
+        for (int i = 0; i < mid.size(); ++i) {
+            if (moveToDown) {
+                _items.insert(draggableIndex + i + 1, mid[i]);
+            } else {
+                _items.insert(dropableIndex + i, mid[i]);
+            }
+        }
+    } else {
+        _items.move(draggableIndex, dropableIndex);
+    }
+    endMoveRows();
+
+    int currentDepth = _itemsDepthHash[dragItem->treeParent()];
+    if (dropItem->hasChildrens()) {
+        if (moveToUp) {
+            // This item always exists, because rootItem not move.
+            dragItem->setParent(_items[dropableIndex-1]->parent());
+        } else {
+            dragItem->setParent(dropItem);
+        }
+    } else if (dragItem->parent() != dropItem->parent()) {
+        dragItem->setParent(dropItem->parent());
+    }
+
+
+    int depthDifference = _itemsDepthHash[dragItem->treeParent()] - currentDepth;
+    if (depthDifference) {
+        _itemsDepthHash[dragItem] += depthDifference;
+        printItemDepth(dragItem);
+
+        auto childrens = dragItem->treeChildrens();
+        for (const auto& child: childrens) {
+            _itemsDepthHash[child] += depthDifference;
+            printItemDepth(child);
+        }
+    }
+    emit dataChanged(createIndex(qMin(draggableIndex, dropableIndex), 0)
+                   , createIndex(qMax(draggableIndex, dropableIndex) + dragItem->childrenSize(), 0)
+                   , {1});
+    printTree();
+
+}
+
+//------------------------------------------------------------------------------
 void TreeItemModel::addTreeItem(TreeItemInterface* item, int depth)
 {
     _items.append(item);

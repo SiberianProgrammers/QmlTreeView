@@ -37,6 +37,9 @@ class TreeItemModel: public QAbstractListModel
         /** Sets RootItem for this model. */
         Q_INVOKABLE void setRootItem(RootItem* rootItem);
 
+        /** Swap row with the draggableIndex from row with the dropableIndex. */
+        Q_INVOKABLE void swapRow(int draggableIndex, int dropableIndex);
+
     public slots:
         /** Clear and fill model from _rootItem and its children. */
         void refillByRoot();
