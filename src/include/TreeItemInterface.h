@@ -51,6 +51,12 @@ class TreeItemInterface: public QObject
         /** Returns array of children for this item. */
         QVector<TreeItemInterface*> treeChildrens() const;
 
+        /** Return true, if this item contains child. */
+        Q_INVOKABLE bool contains(TreeItemInterface* child, Qt::FindChildOption findOptions = Qt::FindDirectChildrenOnly) const;
+
+        /** Return parent for this item. */
+        Q_INVOKABLE TreeItemInterface* treeParent() const;
+
         //------------------------------------------------------------------------------
         // Set
         //------------------------------------------------------------------------------

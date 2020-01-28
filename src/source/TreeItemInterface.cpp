@@ -32,6 +32,22 @@ QVector<TreeItemInterface *> TreeItemInterface::treeChildrens() const
 }
 
 //------------------------------------------------------------------------------
+bool TreeItemInterface::contains(TreeItemInterface *child, Qt::FindChildOption findOptions) const
+{
+    if (findOptions == Qt::FindDirectChildrenOnly) {
+        return children().contains(child);
+    } else {
+        return findChildren<TreeItemInterface*>().contains(child);
+    }
+}
+
+//------------------------------------------------------------------------------
+TreeItemInterface *TreeItemInterface::treeParent() const
+{
+    return dynamic_cast<TreeItemInterface*>(parent());
+}
+
+//------------------------------------------------------------------------------
 int TreeItemInterface::childrenSize(Qt::FindChildOptions findOptions) const
 {
     return findChildren<TreeItemInterface*>("", findOptions).size();

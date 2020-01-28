@@ -10,6 +10,9 @@ ListView {
     property real margin: 5
     property real depthOffset: 20
     property real delegateHeight: 20
+    property var  draggableTreeItem: null
+
+    property Component delegateContentsComponent: TreeViewDelegateContents {}
 
     boundsBehavior: ListView.StopAtBounds
     clip: true
