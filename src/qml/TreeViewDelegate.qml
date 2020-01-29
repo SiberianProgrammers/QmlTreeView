@@ -55,10 +55,39 @@ Rectangle {
         }
     } // TreeViewDraggableDelegate { id: draggableDelegate
 
+    Rectangle {
+        width: parent.width
+        height: 1
+        visible: index > 0
+        color: "grey"
+    }
+
+    Rectangle {
+        width: parent.width
+        height: 1
+        visible: index === _treeView.count - 1
+        color: "grey"
+        anchors.bottom: parent.bottom
+    }
+
+    //------------------------------------------------------------------------------
     WrapButton {
         id: wrapButton
 
         anchors.left: parent.left
         anchors.leftMargin: _delegate.xOffset - width
     }
+
+    //------------------------------------------------------------------------------
+    ChildAddDropArea {
+        visible: height > 0
+                 && _treeView.draggableTreeItem !== null
+                 && draggableTreeItem !== treeItem
+                 && treeItem.childrenSize === 0
+                 && !treeItem.containsParent(draggableTreeItem)
+
+        onEntered: {
+            TreeItemModel.addItemToTargetChild(drag.source.visualIndex, index)
+        }
+    } // AddToChildDropArea {
 }

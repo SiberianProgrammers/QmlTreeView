@@ -17,4 +17,11 @@ Window {
         height: 0.85*parent.height
         anchors.centerIn: parent
     }
+
+    Rectangle {
+        anchors.fill: treeView
+        border.color: "grey"
+        border.width: 1
+        color: "transparent"
+    }
 }

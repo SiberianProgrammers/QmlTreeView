@@ -6,5 +6,6 @@
         <file>TreeViewDraggableDelegate.qml</file>
         <file>TreeViewDelegateContents.qml</file>
         <file>WrapButton.qml</file>
+        <file>ChildAddDropArea.qml</file>
     </qresource>
 </RCC>

@@ -40,6 +40,12 @@ class TreeItemModel: public QAbstractListModel
         /** Swap row with the draggableIndex from row with the dropableIndex. */
         Q_INVOKABLE void swapRow(int draggableIndex, int dropableIndex);
 
+        /**
+         * Append item with draggableIndex to childrens of item with dropableIndex
+         * and change row order.
+         */
+        Q_INVOKABLE void addItemToTargetChild(int draggableIndex, int dropableIndex);
+
     public slots:
         /** Clear and fill model from _rootItem and its children. */
         void refillByRoot();

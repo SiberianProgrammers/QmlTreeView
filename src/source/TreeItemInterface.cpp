@@ -55,6 +55,28 @@ QList<QObject *> TreeItemInterface::treeChildrensList() const
 }
 
 //------------------------------------------------------------------------------
+bool TreeItemInterface::containsParent(TreeItemInterface *parent) const
+{
+    if (!parent) {
+        return false;
+    }
+
+    QObject* p = TreeItemInterface::parent();
+    if (parent == p) {
+        return true;
+    }
+
+    while(p) {
+        if (p == parent) {
+            return true;
+        }
+        p = p->parent();
+    }
+
+    return false;
+}
+
+//------------------------------------------------------------------------------
 int TreeItemInterface::childrenSize(Qt::FindChildOptions findOptions) const
 {
     return findChildren<TreeItemInterface*>("TreeItemInterface", findOptions).size();
