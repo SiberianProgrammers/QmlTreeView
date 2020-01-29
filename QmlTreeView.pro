@@ -21,6 +21,3 @@ RESOURCES += \
     $$PWD/src/qml/TreeViewQml.qrc \
     $$PWD/images/images.qrc
 
-DISTFILES += \
-    TreeViewDraggableDelegate.qml
-
