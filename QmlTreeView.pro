@@ -18,7 +18,8 @@ SOURCES += \
     $$PWD/src/source/RootItem.cpp
 
 RESOURCES += \
-    $$PWD/src/qml/TreeViewQml.qrc
+    $$PWD/src/qml/TreeViewQml.qrc \
+    $$PWD/images/images.qrc
 
 DISTFILES += \
     TreeViewDraggableDelegate.qml

@@ -57,6 +57,8 @@ class TreeItemInterface: public QObject
         /** Return parent for this item. */
         Q_INVOKABLE TreeItemInterface* treeParent() const;
 
+        Q_INVOKABLE QList<QObject*> treeChildrensList() const;
+
         //------------------------------------------------------------------------------
         // Set
         //------------------------------------------------------------------------------

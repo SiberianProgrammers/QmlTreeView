@@ -13,6 +13,7 @@ TreeItemInterface::TreeItemInterface(QObject* parent, const QUuid& id)
     : QObject(parent)
     , _id(id)
 {
+    setObjectName("TreeItemInterface");
 }
 
 //------------------------------------------------------------------------------
@@ -22,7 +23,7 @@ QVector<TreeItemInterface *> TreeItemInterface::treeChildrens() const
     int childrenSize = children().size();
     vector.resize(childrenSize);
 
-    for (const auto& child: findChildren<TreeItemInterface*>("", Qt::FindDirectChildrenOnly)) {
+    for (const auto& child: findChildren<TreeItemInterface*>("TreeItemInterface", Qt::FindDirectChildrenOnly)) {
         if (child) {
             vector[child->orderIndex()] = child;
         }
@@ -37,7 +38,7 @@ bool TreeItemInterface::contains(TreeItemInterface *child, Qt::FindChildOption f
     if (findOptions == Qt::FindDirectChildrenOnly) {
         return children().contains(child);
     } else {
-        return findChildren<TreeItemInterface*>().contains(child);
+        return findChildren<TreeItemInterface*>("TreeItemInterface").contains(child);
     }
 }
 
@@ -48,9 +49,15 @@ TreeItemInterface *TreeItemInterface::treeParent() const
 }
 
 //------------------------------------------------------------------------------
+QList<QObject *> TreeItemInterface::treeChildrensList() const
+{
+    return findChildren<QObject*>("TreeItemInterface", Qt::FindChildrenRecursively);
+}
+
+//------------------------------------------------------------------------------
 int TreeItemInterface::childrenSize(Qt::FindChildOptions findOptions) const
 {
-    return findChildren<TreeItemInterface*>("", findOptions).size();
+    return findChildren<TreeItemInterface*>("TreeItemInterface", findOptions).size();
 }
 
 //------------------------------------------------------------------------------

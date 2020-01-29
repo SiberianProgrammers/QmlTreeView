@@ -125,23 +125,18 @@ void TreeItemModel::swapRow(int draggableIndex, int dropableIndex)
         dragItem->setParent(dropItem->parent());
     }
 
-
     int depthDifference = _itemsDepthHash[dragItem->treeParent()] - currentDepth;
     if (depthDifference) {
         _itemsDepthHash[dragItem] += depthDifference;
-        printItemDepth(dragItem);
 
         auto childrens = dragItem->treeChildrens();
         for (const auto& child: childrens) {
             _itemsDepthHash[child] += depthDifference;
-            printItemDepth(child);
         }
     }
     emit dataChanged(createIndex(qMin(draggableIndex, dropableIndex), 0)
                    , createIndex(qMax(draggableIndex, dropableIndex) + dragItem->childrenSize(), 0)
                    , {1});
-    printTree();
-
 }
 
 //------------------------------------------------------------------------------

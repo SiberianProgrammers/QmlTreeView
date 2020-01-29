@@ -44,14 +44,21 @@ Rectangle {
             anchors.fill: parent
             color: "blue"
             opacity: 0.2
-            visible: hoverHandler.hovered
+            visible: hoverHandler.hovered || wrapButton.containsMouse
         }
 
         HoverHandler {
             id: hoverHandler
 
             target: draggableDelegate
-            enabled: !_treeView.flicking
+            enabled: !_treeView.flicking && !wrapButton.containsMouse
         }
     } // TreeViewDraggableDelegate { id: draggableDelegate
+
+    WrapButton {
+        id: wrapButton
+
+        anchors.left: parent.left
+        anchors.leftMargin: _delegate.xOffset - width
+    }
 }

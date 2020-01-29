@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>wrap_icon_hovered.png</file>
+        <file>wrap_icon_unhovered.png</file>
+    </qresource>
+</RCC>
