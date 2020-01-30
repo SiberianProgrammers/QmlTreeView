@@ -16,7 +16,7 @@ Rectangle {
         width: 0.75*_treeView.width
         height: _delegate.height
         enabled: height > 0
-        visible: enabled
+        visible: enabled && !_treeView.activeFlick
 
         onEntered: {
             TreeItemModel.swapRow(drag.source.visualIndex, index)
@@ -82,9 +82,9 @@ Rectangle {
     ChildAddDropArea {
         visible: height > 0
                  && _treeView.draggableTreeItem !== null
-                 && draggableTreeItem !== treeItem
+                 && _treeView.draggableTreeItem !== treeItem
                  && treeItem.childrenSize === 0
-                 && !treeItem.containsParent(draggableTreeItem)
+                 && !treeItem.containsParent(_treeView.draggableTreeItem)
 
         onEntered: {
             TreeItemModel.addItemToTargetChild(drag.source.visualIndex, index)

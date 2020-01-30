@@ -1,7 +1,7 @@
 import QtQuick 2.12
 
 Rectangle {
-    id: _draggableDelegate
+    id: _treeViewDraggableDelegate
 
     readonly property int visualIndex: index
     readonly property var treeItem: model.modelData
@@ -46,7 +46,7 @@ Rectangle {
 
                 onPressed: {
                     // save cursor position for define correct Drag.hotSpot
-                    pressedCursorPos = qmlTool.cursorPosInItem(_draggableDelegate)
+                    pressedCursorPos = qmlTool.cursorPosInItem(_treeViewDraggableDelegate)
 
                     // it is necessary so that the ListView does not scroll vertically
                     mouse.accepted = true;
@@ -87,10 +87,10 @@ Rectangle {
     states: [
         State {
             name: "draggable"
-            when: _draggableDelegate.Drag.active
+            when: _treeViewDraggableDelegate.Drag.active
 
             ParentChange {
-                target: _draggableDelegate
+                target: _treeViewDraggableDelegate
                 parent: _treeView.window.contentItem
                 x: _treeView.window.contentItem.mapToItem(_treeView, 0, 0).x
                 y: _treeView.window.contentItem.mapToItem(_treeView, 0, 0).y
@@ -99,6 +99,7 @@ Rectangle {
             PropertyChanges {
                 target: _treeView
                 draggableTreeItem: treeItem
+                draggableDelegate: _treeViewDraggableDelegate
             }
 
             PropertyChanges {
@@ -107,14 +108,14 @@ Rectangle {
             }
 
             PropertyChanges {
-                target: _draggableDelegate
+                target: _treeViewDraggableDelegate
                 opacity: 0.75
                 Drag.hotSpot.x: pressedCursorPos.x
                 Drag.hotSpot.y: pressedCursorPos.y
             }
 
             AnchorChanges {
-                target: _draggableDelegate
+                target: _treeViewDraggableDelegate
                 anchors.verticalCenter: undefined
                 anchors.horizontalCenter: undefined
             }
@@ -125,7 +126,7 @@ Rectangle {
                   && treeItem.containsParent(_treeView.draggableTreeItem)
 
             PropertyChanges {
-                target: _draggableDelegate
+                target: _treeViewDraggableDelegate
                 opacity: 0.1
             }
 
@@ -140,4 +141,4 @@ Rectangle {
         mouseAreaLoader.sourceComponent = undefined;
         mouseAreaLoader.sourceComponent = mouseAreaComponent;
     }
-} // Rectangle { id: _draggableDelegate
+} // Rectangle { id: _treeViewDraggableDelegate
