@@ -13,7 +13,7 @@ class TreeItemInterface: public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QString icon READ icon NOTIFY iconChanged)
     Q_PROPERTY(bool isRootItem READ isRootItem CONSTANT)
     Q_PROPERTY(int  childrenSize READ childrenSize NOTIFY childrenChanged)

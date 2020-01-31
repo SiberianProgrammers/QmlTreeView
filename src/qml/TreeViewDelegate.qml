@@ -55,6 +55,7 @@ Rectangle {
         }
     } // TreeViewDraggableDelegate { id: draggableDelegate
 
+    //------------------------------------------------------------------------------
     Rectangle {
         width: parent.width
         height: 1
@@ -62,6 +63,7 @@ Rectangle {
         color: "grey"
     }
 
+    //------------------------------------------------------------------------------
     Rectangle {
         width: parent.width
         height: 1
@@ -76,7 +78,7 @@ Rectangle {
 
         anchors.left: parent.left
         anchors.leftMargin: _delegate.xOffset - width
-    }
+    } // WrapButton {
 
     //------------------------------------------------------------------------------
     ChildAddDropArea {
@@ -89,5 +91,5 @@ Rectangle {
         onEntered: {
             TreeItemModel.addItemToTargetChild(drag.source.visualIndex, index)
         }
-    } // AddToChildDropArea {
+    } // ChildAddDropArea {
 }

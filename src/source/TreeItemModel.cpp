@@ -198,6 +198,31 @@ void TreeItemModel::addItemToTargetChild(int draggableIndex, int dropableIndex)
 }
 
 //------------------------------------------------------------------------------
+void TreeItemModel::removeItem(TreeItemInterface *treeItem)
+{
+    if (!_itemsDepthHash.contains(treeItem)) {
+        return;
+    }
+
+
+    std::function<void(TreeItemInterface*)> remove;
+    remove = [this, &remove](TreeItemInterface* treeItem) {
+        for (auto child: treeItem->treeChildrens()) {
+            remove(child);
+        }
+        _items.removeAll(treeItem);
+        _itemsDepthHash.remove(treeItem);
+    };
+
+    int treeItemIndex = _items.indexOf(treeItem);
+    int childrenSize = treeItem->treeChildrens().size();
+
+    beginRemoveRows({}, treeItemIndex, treeItemIndex+childrenSize);
+    remove(treeItem);
+    endRemoveRows();
+}
+
+//------------------------------------------------------------------------------
 void TreeItemModel::addTreeItem(TreeItemInterface* item, int depth)
 {
     _items.append(item);

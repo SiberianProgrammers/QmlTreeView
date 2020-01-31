@@ -8,5 +8,8 @@
         <file>WrapButton.qml</file>
         <file>ChildAddDropArea.qml</file>
         <file>FlickDropArea.qml</file>
+        <file>ContextMenu.qml</file>
+        <file>ContextMenuButton.qml</file>
+        <file>ContextMenuButtonsDefault.qml</file>
     </qresource>
 </RCC>

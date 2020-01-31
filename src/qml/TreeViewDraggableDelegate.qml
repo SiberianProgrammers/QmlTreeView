@@ -20,6 +20,7 @@ Rectangle {
 
         xAxis.enabled: true
         yAxis.enabled: true
+        acceptedButtons: Qt.LeftButton
 
         onActiveChanged: {
             if (!active) {
@@ -27,41 +28,6 @@ Rectangle {
             }
         }
     } // DragHandler { id: dragHandler
-
-    //------------------------------------------------------------------------------
-    // MouseArea is wrapped by Loader, because mouseArea doesn't responce on press after any
-    // drag action.
-    // After any drag action MouseArea must be recreated.
-    //------------------------------------------------------------------------------
-    Loader {
-        id: mouseAreaLoader
-
-        anchors.fill: parent
-
-        sourceComponent: Component {
-            id: mouseAreaComponent
-
-            MouseArea {
-                propagateComposedEvents: true
-
-                onPressed: {
-                    // save cursor position for define correct Drag.hotSpot
-                    pressedCursorPos = qmlTool.cursorPosInItem(_treeViewDraggableDelegate)
-
-                    // it is necessary so that the ListView does not scroll vertically
-                    mouse.accepted = true;
-                }
-
-                onClicked: {
-                    delegateContentLoader.item.clicked();
-                }
-
-                onDoubleClicked:  {
-                    delegateContentLoader.item.doubleClicked();
-                }
-            } // MouseArea {
-        }
-    } // Loader { id: mouseAreaLoader
 
     //------------------------------------------------------------------------------
     Loader {
@@ -83,6 +49,51 @@ Rectangle {
         width: 8
         fillMode: Image.PreserveAspectFit
     }
+
+    //------------------------------------------------------------------------------
+    // MouseArea is wrapped by Loader, because mouseArea doesn't responce on press after any
+    // drag action.
+    // After any drag action MouseArea must be recreated.
+    //------------------------------------------------------------------------------
+    Loader {
+        id: mouseAreaLoader
+
+        anchors.fill: parent
+
+        sourceComponent: Component {
+            id: mouseAreaComponent
+
+            MouseArea {
+                propagateComposedEvents: true
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+                onPressed: {
+                    if (mouse.button === Qt.RightButton) {
+                        // show context menu
+                        mouse.accepted = true;
+                        _treeView.contextMenu.selectedTreeItemDelegate = delegateContentLoader.item
+                        _treeView.contextMenu.selectedTreeItem = model.modelData
+                        _treeView.contextMenu.open();
+                        return;
+                    }
+
+                    // save cursor position for define correct Drag.hotSpot
+                    pressedCursorPos = qmlTool.cursorPosInItem(_treeViewDraggableDelegate)
+
+                    // it is necessary so that the ListView does not scroll vertically
+                    mouse.accepted = true;
+                }
+
+                onClicked: {
+                    delegateContentLoader.item.clicked();
+                }
+
+                onDoubleClicked:  {
+                    delegateContentLoader.item.doubleClicked();
+                }
+            } // MouseArea {
+        }
+    } // Loader { id: mouseAreaLoader
 
     states: [
         State {

@@ -16,6 +16,12 @@ Window {
         width: 200
         height: 0.85*parent.height
         anchors.centerIn: parent
+
+        // Example of how to override standard context menu button
+        //contextMenuButtons: [
+        //    ContextMenuButton { text: qsTr("Element 1") }
+        //    , ContextMenuButton { text: qsTr("Element 2") }
+        //]
     }
 
     Rectangle {
