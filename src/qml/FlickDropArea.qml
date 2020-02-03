@@ -65,7 +65,7 @@ Item {
 
         property bool activeFlick: false
         property point treeViewPos: _treeView.draggableTreeItem !== null
-                                    ? _treeView.window.contentItem.mapToItem(_treeView,0,0)
+                                    ? _treeView.mapToItem(_treeView.window.contentItem,0,0)
                                     : Qt.point(0,0)
 
         //------------------------------------------------------------------------------
@@ -86,23 +86,27 @@ Item {
         }
 
         //------------------------------------------------------------------------------
-        function checkMousePos() {
-            if (activeFlick) {
-                return;
-            }
 
+        function checkMousePos() {
             var dragPoint = _treeView.draggableDelegate.Drag.hotSpot
             var cursorX = _treeView.draggableDelegate.x + dragPoint.x
             var cursorY = _treeView.draggableDelegate.y + dragPoint.y
+            var checkX = cursorX >= treeViewPos.x
+                      && cursorX <= (treeViewPos.x + _treeView.width)
 
-            var checkX = cursorX >= _p.treeViewPos.x
-                      && cursorX <= (_p.treeViewPos.x + _treeView.width)
-            var checkY = (cursorY + dropAreaHeight) >= _p.treeViewPos.y
-                      && cursorY <= (_p.treeViewPos.y + _treeView.height - dropAreaHeight)
+            var checkY = (cursorY >= treeViewPos.y
+                           && cursorY <= (treeViewPos.y + dropAreaHeight))
+                         || ( cursorY >= (treeViewPos.y + _treeView.height - dropAreaHeight)
+                              && cursorY <= (treeViewPos.y + _treeView.height))
 
             _p.activeFlick = checkX & checkY
         }
     } // QtObject { id: _p
+
+    Connections {
+        target: _treeView
+        onDraggableDelegateChanged: { _p.stop(); }
+    }
 
     Connections {
         target: _treeView.draggableDelegate

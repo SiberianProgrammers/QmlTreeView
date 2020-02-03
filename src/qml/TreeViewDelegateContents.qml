@@ -14,7 +14,6 @@ Item {
 
         property string textBackup: ""
 
-
         text: modelData.name
         font.pixelSize: 12
         width: parent.width

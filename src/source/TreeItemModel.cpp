@@ -204,7 +204,6 @@ void TreeItemModel::removeItem(TreeItemInterface *treeItem)
         return;
     }
 
-
     std::function<void(TreeItemInterface*)> remove;
     remove = [this, &remove](TreeItemInterface* treeItem) {
         for (auto child: treeItem->treeChildrens()) {

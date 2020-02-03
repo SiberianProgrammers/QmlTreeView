@@ -11,6 +11,7 @@ MouseArea {
     property Item selectedTreeItemDelegate: null
     property var selectedTreeItem: null
 
+    objectName: "ContextMenu"
     visible: false
     hoverEnabled: visible
     anchors.fill: parent
@@ -48,11 +49,6 @@ MouseArea {
     }
 
     //------------------------------------------------------------------------------
-    onClicked:  {
-        _contextMenu.close();
-    }
-
-    //------------------------------------------------------------------------------
     states: [
         State {
             name: "opened"
@@ -66,8 +62,22 @@ MouseArea {
     ]
 
     //------------------------------------------------------------------------------
+    onClicked:  {
+        _contextMenu.close();
+    }
+
+    //------------------------------------------------------------------------------
     function open() {
-        cursorPoint = qmlTool.cursorPosInItem(window.contentItem)
+        var point = qmlTool.cursorPosInItem(window.contentItem)
+        var menuWidth = defaultMenuLoader.status === Loader.Null
+                        ? menu.width
+                        : defaultMenuLoader.width;
+        var menuHeight = defaultMenuLoader.status === Loader.Null
+                        ? menu.height
+                        : defaultMenuLoader.height;
+        cursorPoint.x = Math.min((window.width - menuWidth), point.x);
+        cursorPoint.y = Math.min((window.height - menuHeight), point.y);
+
         visible = true;
     }
 
