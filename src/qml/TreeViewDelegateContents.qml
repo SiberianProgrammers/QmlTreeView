@@ -19,6 +19,7 @@ Item {
         width: parent.width
         height: parent.height
         verticalAlignment: Text.AlignVCenter
+        visible: height > 0
 
         // it is necessary, because TextEdit conflict with HoverHandler
         enabled: false

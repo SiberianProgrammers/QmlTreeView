@@ -114,6 +114,7 @@ void TreeItemModel::swapRow(int draggableIndex, int dropableIndex)
     endMoveRows();
 
     int currentDepth = _itemsDepthHash[dragItem->treeParent()];
+
     if (dropItem->hasChildrens()) {
         if (moveToUp) {
             // This item always exists, because rootItem not move.
@@ -136,7 +137,7 @@ void TreeItemModel::swapRow(int draggableIndex, int dropableIndex)
     }
     emit dataChanged(createIndex(qMin(draggableIndex, dropableIndex), 0)
                    , createIndex(qMax(draggableIndex, dropableIndex) + dragItem->childrenSize(), 0)
-                     , {1});
+                     );
 }
 
 //------------------------------------------------------------------------------

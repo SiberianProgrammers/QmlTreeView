@@ -86,7 +86,6 @@ Item {
         }
 
         //------------------------------------------------------------------------------
-
         function checkMousePos() {
             var dragPoint = _treeView.draggableDelegate.Drag.hotSpot
             var cursorX = _treeView.draggableDelegate.x + dragPoint.x
