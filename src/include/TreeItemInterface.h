@@ -6,12 +6,19 @@
 #include <QUuid>
 #include <QVector>
 
+namespace sp {
+
 /***************************************************************************//**
  * @brief Abstract interface of item for displaing in TreeView.
  ******************************************************************************/
+
+class TreeItemModel;
+
 class TreeItemInterface: public QObject
 {
     Q_OBJECT
+
+    friend class TreeItemModel;
 
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QString icon READ icon NOTIFY iconChanged)
@@ -72,6 +79,9 @@ class TreeItemInterface: public QObject
         /** Sets icon for this item.*/
         void setIcon(const QString& icon);
 
+    protected:
+        inline void setOrderIndex(int index) { _orderIndex = index; }
+
     signals:
         void nameChanged();
         void iconChanged();
@@ -83,3 +93,4 @@ class TreeItemInterface: public QObject
         QString _icon;
         int _orderIndex = 0;
 };
+}

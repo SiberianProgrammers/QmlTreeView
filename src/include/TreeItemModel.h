@@ -57,6 +57,7 @@ class TreeItemModel: public QAbstractListModel
         void addTreeItem(TreeItemInterface* item, int depth);
         void printTree();
         void printItemDepth(TreeItemInterface* item);
+        void fixTreeItemsOrderIndex();
 
     private:
         QVector<TreeItemInterface*> _items;

@@ -135,6 +135,9 @@ void TreeItemModel::swapRow(int draggableIndex, int dropableIndex)
             _itemsDepthHash[child] += depthDifference;
         }
     }
+
+    fixTreeItemsOrderIndex();
+
     emit dataChanged(createIndex(qMin(draggableIndex, dropableIndex), 0)
                    , createIndex(qMax(draggableIndex, dropableIndex) + dragItem->childrenSize(), 0)
                      );
@@ -193,9 +196,11 @@ void TreeItemModel::addItemToTargetChild(int draggableIndex, int dropableIndex)
             printItemDepth(child);
         }
     }
+
+    fixTreeItemsOrderIndex();
+
     emit dataChanged(createIndex(qMin(draggableIndex, dropableIndex), 0)
                    , createIndex(qMax(draggableIndex, dropableIndex) + dragItem->childrenSize(), 0));
-    printTree();
 }
 
 //------------------------------------------------------------------------------
@@ -257,6 +262,31 @@ void TreeItemModel::printTree()
 void TreeItemModel::printItemDepth(TreeItemInterface *item)
 {
     qDebug() << "item: " << item->name() << " depth: " << _itemsDepthHash[item];
+}
+
+//------------------------------------------------------------------------------
+void TreeItemModel::fixTreeItemsOrderIndex()
+{
+    if (!_rootItem) {
+        return;
+    }
+
+    QHash<TreeItemInterface*, int> childrenNodes;
+    childrenNodes.insert(_rootItem, 0);
+
+    for (const auto& treeItem: _items) {
+        if (treeItem == _rootItem) {
+            continue;
+        }
+
+        if (treeItem->hasChildrens()) {
+            childrenNodes.insert(treeItem, 0);
+        }
+
+        auto parent = treeItem->treeParent();
+        int orderIndex = childrenNodes[parent]++;
+        treeItem->setOrderIndex(orderIndex);
+    }
 }
 
 //------------------------------------------------------------------------------

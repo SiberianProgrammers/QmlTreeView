@@ -91,11 +91,25 @@ MouseArea {
     transitions: [
         Transition {
             PropertyAnimation {
-                duration: 50
+                duration: _p.isReady
+                          ? _treeView.wrapAnimationDuration
+                          : 0
                 properties: "height, rotation"
             }
         }
     ]
+
+    //------------------------------------------------------------------------------
+    QtObject {
+        id: _p
+
+        property bool isReady: false
+    }
+
+    //------------------------------------------------------------------------------
+    Component.onCompleted: {
+        _p.isReady = true;
+    }
 }
 
 

@@ -23,7 +23,7 @@ ListView {
     property var  draggableTreeItem: null
     property Item draggableDelegate: null
     property Component delegateContentsComponent: TreeViewDelegateContents {}
-    property int wrapAnimationDuration: 100
+    property int wrapAnimationDuration: 50
 
     boundsBehavior: ListView.StopAtBounds
     clip: true
